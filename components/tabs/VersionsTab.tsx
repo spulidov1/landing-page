@@ -5,12 +5,22 @@ import { ExternalLink, Github } from 'lucide-react'
 import { springs, staggerContainer, staggerItem } from '@/lib/animations'
 
 type VersionStatus = 'current' | 'shipped' | 'archived'
-const versions: Array<{ title: string; status: VersionStatus; description?: string; href?: string }> = [
-  ...
-]
 
+type Version = {
+  version: string
+  status: VersionStatus
+  year: string
+  title: string
+  tagline: string
+  built: string[]
+  why: string
+  killed: string[]
+  stack: string[]
+  href?: string
+  github?: string
+}
 
-const versions = [
+const versions: Version[] = [
   {
     version: 'v3',
     status: 'current',
@@ -26,6 +36,8 @@ const versions = [
     why: '"v2 worked, but every interaction felt like I was designing for my past self, not my future users. I needed to build something that could grow without breaking."',
     killed: ['Streak counters', 'Achievement badges', 'Social features'],
     stack: ['Next.js 14', 'Supabase', 'Framer Motion', 'TypeScript'],
+    href: '#',
+    github: '#',
   },
   {
     version: 'v2',
@@ -42,6 +54,8 @@ const versions = [
     why: '"v1 taught me what users needed. v2 was about building it properly, even if it meant throwing away working code."',
     killed: ['Real-time features', 'Complex animations', 'Social sharing'],
     stack: ['React Native', 'Firebase', 'Redux', 'Expo'],
+    href: '#',
+    github: '#',
   },
   {
     version: 'v1',
@@ -55,13 +69,14 @@ const versions = [
       'Basic data persistence',
       'Learned what not to build',
     ],
-    why: '"I just wanted to ship something. Turns out that\'s the hardest part — knowing when to stop adding features."',
+    why: `"I just wanted to ship something. Turns out that's the hardest part — knowing when to stop adding features."`,
     killed: ['Nothing yet', 'Everything was experimental'],
     stack: ['React', 'LocalStorage', 'CSS Modules'],
+    href: '#',
   },
 ]
 
-const statusColors: Record<'current' | 'shipped' | 'archived', string> = {
+const statusColors: Record<VersionStatus, string> = {
   current: 'bg-emerald-500/10 text-emerald-500',
   shipped: 'bg-blue-500/10 text-blue-500',
   archived: 'bg-ink-700/10 text-ink-700 dark:bg-canvas-100/10 dark:text-canvas-100',
@@ -75,7 +90,7 @@ export default function VersionsTab() {
       animate="visible"
       className="space-y-6"
     >
-      {versions.map((version, index) => (
+      {versions.map((version) => (
         <motion.div
           key={version.version}
           variants={staggerItem}
@@ -86,7 +101,9 @@ export default function VersionsTab() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="text-2xl font-bold tracking-tight">{version.title}</h3>
-                <span className={`px-2 py-1 text-xs font-mono rounded ${statusColors[version.status]}`}>
+                <span
+                  className={`px-2 py-1 text-xs font-mono rounded ${statusColors[version.status]}`}
+                >
                   {version.status}
                 </span>
               </div>
@@ -108,7 +125,10 @@ export default function VersionsTab() {
               </h4>
               <ul className="space-y-2">
                 {version.built.map((item, i) => (
-                  <li key={i} className="text-sm text-ink-700 dark:text-canvas-100 opacity-80 flex gap-2">
+                  <li
+                    key={`${version.version}-built-${i}`}
+                    className="text-sm text-ink-700 dark:text-canvas-100 opacity-80 flex gap-2"
+                  >
                     <span className="text-bronze-600 mt-1">•</span>
                     <span>{item}</span>
                   </li>
@@ -123,7 +143,10 @@ export default function VersionsTab() {
               </h4>
               <ul className="space-y-2">
                 {version.killed.map((item, i) => (
-                  <li key={i} className="text-sm text-ink-700 dark:text-canvas-100 opacity-60 line-through flex gap-2">
+                  <li
+                    key={`${version.version}-killed-${i}`}
+                    className="text-sm text-ink-700 dark:text-canvas-100 opacity-60 line-through flex gap-2"
+                  >
                     <span className="mt-1">•</span>
                     <span>{item}</span>
                   </li>
@@ -150,7 +173,7 @@ export default function VersionsTab() {
             <div className="flex flex-wrap gap-2">
               {version.stack.map((tech) => (
                 <span
-                  key={tech}
+                  key={`${version.version}-tech-${tech}`}
                   className="px-2 py-1 text-xs font-mono bg-canvas-100 dark:bg-ink-800 rounded"
                 >
                   {tech}
@@ -162,7 +185,7 @@ export default function VersionsTab() {
           {/* Actions */}
           <div className="flex gap-4 pt-4 border-t border-canvas-200 dark:border-white/10">
             <motion.a
-              href="#"
+              href={version.href ?? '#'}
               className="btn-text text-sm group/link"
               whileHover={{ x: 2 }}
               transition={springs.snappy}
@@ -170,9 +193,10 @@ export default function VersionsTab() {
               View Details
               <ExternalLink className="w-3 h-3 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
             </motion.a>
+
             {version.status !== 'archived' && (
               <motion.a
-                href="#"
+                href={version.github ?? '#'}
                 className="btn-text text-sm opacity-70 hover:opacity-100"
                 whileHover={{ x: 2 }}
                 transition={springs.snappy}
