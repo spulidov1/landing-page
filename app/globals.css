@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Cursor tracking for card glow effects */
+    --mouse-x: 0px;
+    --mouse-y: 0px;
+  }
+
+  * {
+    @apply border-canvas-200;
+  }
+
+  body {
+    @apply bg-canvas-50 text-ink-900;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Dark mode override for depth */
+  @media (prefers-color-scheme: dark) {
+    body {
+      @apply bg-ink-950 text-canvas-50;
+    }
+  }
+}
+
+@layer components {
+  /* Glass card - elevated from basic glassmorphism */
+  .glass-card {
+    @apply backdrop-blur-xl bg-white/[0.08] dark:bg-black/40 
+           border border-white/10 dark:border-white/5 
+           rounded-2xl shadow-soft-xl
+           relative overflow-hidden;
+  }
+
+  /* Inner glow that follows cursor (via JS) */
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      600px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.06),
+      transparent 40%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .glass-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Glass nav - fixed header */
+  .glass-nav {
+    @apply backdrop-blur-xl bg-canvas-50/80 dark:bg-ink-950/80
+           border-b border-canvas-200/50 dark:border-white/5
+           shadow-soft-xl;
+  }
+
+  /* Focus states - accessible but refined */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 
+           focus-visible:ring-bronze-600 focus-visible:ring-offset-2
+           focus-visible:ring-offset-canvas-50 dark:focus-visible:ring-offset-ink-950;
+  }
+
+  /* Button base - text as button (no heavy backgrounds) */
+  .btn-text {
+    @apply inline-flex items-center gap-2 
+           text-ink-900 dark:text-canvas-50 
+           transition-all duration-200 ease-out
+           focus-ring;
+  }
+
+  .btn-text:hover {
+    @apply text-bronze-600;
+  }
+
+  /* Active tab indicator */
+  .tab-active {
+    @apply relative text-bronze-600;
+  }
+
+  .tab-active::after {
+    content: '';
+    @apply absolute -bottom-2 left-0 right-0 h-[2px] 
+           bg-bronze-600 rounded-full;
+  }
+}
+
+@layer utilities {
+  /* Animation delays for stagger */
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+  .delay-400 {
+    animation-delay: 400ms;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
