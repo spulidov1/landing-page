@@ -4,6 +4,12 @@ import { motion } from 'framer-motion'
 import { ExternalLink, Github } from 'lucide-react'
 import { springs, staggerContainer, staggerItem } from '@/lib/animations'
 
+type VersionStatus = 'current' | 'shipped' | 'archived'
+const versions: Array<{ title: string; status: VersionStatus; description?: string; href?: string }> = [
+  ...
+]
+
+
 const versions = [
   {
     version: 'v3',
@@ -55,7 +61,7 @@ const versions = [
   },
 ]
 
-const statusColors = {
+const statusColors: Record<'current' | 'shipped' | 'archived', string> = {
   current: 'bg-emerald-500/10 text-emerald-500',
   shipped: 'bg-blue-500/10 text-blue-500',
   archived: 'bg-ink-700/10 text-ink-700 dark:bg-canvas-100/10 dark:text-canvas-100',
