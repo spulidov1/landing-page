@@ -37,8 +37,9 @@ export default function WorkSection() {
           transition={springs.gentle}
         >
           <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
-            Work
+             Systems I Build
           </h2>
+
           <p className="text-lg text-ink-700 dark:text-canvas-100 opacity-70 max-w-2xl">
             Evolution as proof. Each version shows how I think, not just what I shipped.
           </p>
