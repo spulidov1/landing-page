@@ -71,18 +71,13 @@ export default function FeaturedTab() {
         }}
       >
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Project Image/Demo Placeholder */}
-          <div className="aspect-[4/3] bg-gradient-to-br from-ink-800 to-ink-900 dark:from-canvas-100 dark:to-canvas-200 rounded-xl overflow-hidden relative">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 mx-auto bg-bronze-600/20 rounded-2xl flex items-center justify-center">
-                  <div className="w-8 h-8 bg-bronze-600 rounded-lg" />
-                </div>
-                <p className="text-sm text-canvas-100 dark:text-ink-900 opacity-50 font-mono">
-                  Screenshot / Demo
-                </p>
-              </div>
-            </div>
+          {/* Project Image - FIXED */}
+          <div className="overflow-hidden rounded-xl">
+            <img 
+              src="/fitflow-preview.png" 
+              alt="FitFlow v3 — calm habit tracking interface"
+              className="w-full h-auto block rounded-xl"
+            />
           </div>
 
           {/* Project Details */}
@@ -112,7 +107,7 @@ export default function FeaturedTab() {
                 Built with
               </p>
               <div className="flex flex-wrap gap-2">
-                {['Next.js 14', 'Supabase', 'Framer Motion', 'Tailwind'].map((tech) => (
+                {['React', 'Supabase', 'Framer Motion', 'Tailwind'].map((tech) => (
                   <span
                     key={tech}
                     className="px-3 py-1 text-sm bg-canvas-100 dark:bg-ink-800 rounded-full"
@@ -125,13 +120,19 @@ export default function FeaturedTab() {
 
             {/* Actions */}
             <div className="flex gap-4 pt-4">
-              {/* Not live yet — keep as disabled / placeholder */}
+              <motion.a
+                href="https://fitflow-v2.vercel.app/"
+                target="_blank"
+                rel="noreferrer"
+                className="btn-text group/link"
+                whileHover={{ x: 2 }}
+                transition={springs.snappy}
+              >
+                View Live App
+                <ExternalLink className="w-4 h-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+              </motion.a>
               <span className="btn-text opacity-50 cursor-not-allowed select-none">
-                Case Study (soon)
-                <ExternalLink className="w-4 h-4" />
-              </span>
-              <span className="btn-text opacity-50 cursor-not-allowed select-none">
-                GitHub (soon)
+                GitHub (private)
                 <Github className="w-4 h-4" />
               </span>
             </div>
@@ -222,7 +223,6 @@ export default function FeaturedTab() {
                 <ExternalLink className="w-4 h-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
               </motion.a>
 
-              {/* Optional: If you don't have a repo, delete this */}
               <motion.a
                 href="#"
                 className="btn-text opacity-70 hover:opacity-100"
